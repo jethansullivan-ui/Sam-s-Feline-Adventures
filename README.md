@@ -1,11 +1,29 @@
-Sam's Feline AdventuresDeveloper: SamCourse: Software Engineering / Game Development Final ProjectLanguage: Python 3Framework: PygameProject OverviewSam's Feline Adventures is an action-packed 2D arcade-style platformer built using Python and the Pygame framework. The game features an original character named Sam the Cat—a purple animatronic cat with blue accents, glowing red eyes, and an orange bowtie inspired by mascot-horror animatronics.Players guide Sam through dynamic industrial platforms while navigating vertical jump sequences, dodging spinning hazards (harsh.gif), monitoring life stats, and reaching the destination objective (cupcakegoal.png) to clear each level.Technical DescriptionThird-Party Libraries and DependenciesPygame (pygame):Purpose: Serves as the fundamental game engine for window creation, dynamic rendering, input polling, event handling, framerate management ($60\text{ FPS}$ tick rates), rectangle/mask collision detection (pygame.Rect, pygame.mask), and vector manipulation (pygame.math.Vector2).Python Standard Libraries:os & os.walk: Utilized inside support.py to dynamically traverse sprite directory trees and load PNG, JPG, and GIF frame sequences into renderable arrays.sys: Used in main.py for cleanly terminating system processes during window closure events (sys.exit()).Code Structure (Object-Oriented Programming)The project adheres to a clean, modular Object-Oriented Programming (OOP) paradigm, establishing key game entities as classes inheriting from pygame.sprite.Sprite.Platformer-Game/
-├── main.py        # Application entry point & game loop loop controller
-├── game.py        # UI state, HUD rendering, and win/loss rules engine
-├── world.py       # Map grid loader, collision solver, & entity manager
-├── player.py      # Sam character class (physics, animation, player input)
-├── tile.py        # Ground platform sprite module
-├── trap.py        # Hazard sprite module & frame animation handler
-├── goal.py        # Exit portal / objective sprite module
-├── settings.py    # Global configuration constants & matrix layout
-└── support.py     # File path traverser & image surface loading helper
-Primary Classes and Core Responsibilities:Platformer (main.py):Responsibility: Serves as the top-level application controller. Initializes Pygame, sets screen resolution, loads background graphics (Sprites/terrain/bg.png), captures raw keyboard input events, and drives the main game loop at $60\text{ FPS}$.World (world.py):Responsibility: Acts as the central map manager and collision solver. Dynamically parses the ASCII map grid defined in settings.py, instantiates sprite groups (tiles, traps, player, goal), applies gravity mechanics, and handles screen-scrolling offsets when Sam approaches horizontal screen boundaries.Player (player.py - inherits pygame.sprite.Sprite):Responsibility: Controls Sam the Cat's movement state, animation cycles, and physical attributes. Maintains a state machine (idle, walk, jump, fall, lose, win) that flips dynamically based on directional vectors (pygame.math.Vector2) and sprite asset folders loaded via support.py.Game (game.py):Responsibility: Manages high-level game states (Active, Win, Loss) and HUD rendering. Displays player life points using heart/star sprites (Sprites/life/life.png) and blits victory or game-over messaging using Pygame's font subsystem.Tile (tile.py - inherits pygame.sprite.Sprite):Responsibility: Handles solid ground and platform terrain. Renders static textures (Sprites/terrain/ground.png) scaled to the global tile size and updates coordinate shifts during screen scrolling.Trap (trap.py - inherits pygame.sprite.Sprite):Responsibility: Encapsulates environmental hazards (harsh.gif). Animates multi-frame spinning sprites and generates pixel-perfect collision masks (pygame.mask) for hazard interaction.Goal (goal.py - inherits pygame.sprite.Sprite):Responsibility: Represents the stage objective sprite (Sprites/goal/cupcakegoal.png). Evaluates contact with the player rectangle to trigger the victory state.
+# Sam's Feline Adventures
+
+**Developer:** Sam  
+**Course:** Software Engineering / Game Development Final Project  
+
+---
+
+## Technical Description
+
+### Third-Party Libraries and Dependencies
+* **Pygame (`pygame`)**: The primary external library utilized for window creation, 2D vector mathematics (`pygame.math.Vector2`), event handling, surface blitting, clock management for fixed frame rates ($60\text{ FPS}$), audio mixing, and AABB/mask collision detection.
+* **Python Standard Libraries (`os`, `sys`)**: Used for robust file system path resolution across directory trees and clean application exit calls.
+
+### Code Structure (Object-Oriented Programming)
+The application follows an Object-Oriented Programming (OOP) design pattern, organized into modular script files with clear separation of concerns:
+
+* **`main.py` (`Platformer` Class):** Acts as the entry point and master controller. It initializes the Pygame window, runs the core game loop, monitors system events (`QUIT`, `KEYDOWN`, `KEYUP`), regulates frame timing via `pygame.time.Clock`, and renders background layers.
+* **`world.py` (`World` Class):** Manages level layout data from `settings.py`, instantiates and groups sprite containers (`tiles`, `traps`, `player`, `goal`), calculates world-scrolling offsets (`_scroll_x`), and processes collision physics.
+* **`player.py` (`Player` Class):** Inherits from `pygame.sprite.Sprite`. Manages Sam the Cat's movement states, gravity application, jump velocity, bounding box collision flags (`on_ground`, `on_ceiling`, `on_left`, `on_right`), and dynamic asset frame animations.
+* **`tile.py` (`Tile` Class):** Inherits from `pygame.sprite.Sprite`. Represents terrain blocks rendered from `Sprites/terrain/ground.png`, supporting dynamic camera shifts.
+* **`trap.py` (`Trap` Class):** Inherits from `pygame.sprite.Sprite`. Controls hazard animations from `Sprites/trap/` and triggers player health penalties upon collision.
+* **`goal.py` (`Goal` Class):** Inherits from `pygame.sprite.Sprite`. Represents the target cupcake objective (`Sprites/goal/cupcakegoal.png`) that triggers level completion.
+* **`game.py` (`Game` Class):** Manages high-level UI rendering, including HUD life counters (`Sprites/life/life.png`) and win/lose text overlays.
+* **`support.py` (Utility Module):** Provides helper functions like `import_sprite()` to recursively parse sprite directories and load transparent PNG/GIF frames into memory safely.
+* **`settings.py` (Configuration Module):** Defines global constants such as `WIDTH`, `HEIGHT`, `tile_size`, and the ASCII-based `world_map` level array.
+
+### Architecture Diagram
+
+![Architecture Diagram](SamsFelineAdventure.png)
