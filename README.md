@@ -1,7 +1,7 @@
 # Sam's Feline Adventures
 
-**Developer:** Sam  
-**Course:** Software Engineering / Game Development Final Project  
+**Developer:** Ethan Sullivan  
+**Course:** Python Final Project  
 
 ---
 
